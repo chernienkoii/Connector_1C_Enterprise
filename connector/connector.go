@@ -39,7 +39,7 @@ type Connector struct {
 	Global_settings       rootsctuct.Global_settings
 	LoggerConn            rootsctuct.LoggerConn
 	CollectionMongoDB     *mongo.Collection
-	DemoDBmap             map[string]rootsctuct.sku_struct
+	DemoDBmap             map[string]rootsctuct.Customer_struct
 	RedisClient           *redis.Client
 	TelegramContext       context.Context
 	TelegramCancel        context.CancelFunc
@@ -95,14 +95,14 @@ func (Connector *Connector) StartTelegramWithoutCancel() {
 
 		switch Text {
 		case "all":
-			sku_map_data, err := ConnectorV.GetAllsku(ConnectorV.DataBaseType)
+			customer_map_data, err := ConnectorV.GetAllCustomer(ConnectorV.DataBaseType)
 
 			if err != nil {
 				ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				continue
 			}
 
-			Jsonbyte, err := json.Marshal(sku_map_data)
+			Jsonbyte, err := json.Marshal(customer_map_data)
 			if err != nil {
 				ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				continue
@@ -125,14 +125,14 @@ func (Connector *Connector) StartTelegramWithoutCancel() {
 			bot.Send(msg)
 
 		default:
-			sku_struct_out, err := ConnectorV.FindOneRow(ConnectorV.DataBaseType, Text, rootsctuct.Global_settingsV)
+			Customer_struct_out, err := ConnectorV.FindOneRow(ConnectorV.DataBaseType, Text, rootsctuct.Global_settingsV)
 
 			if err != nil {
 				ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				continue
 			}
 
-			Jsonbyte, err := json.Marshal(sku_struct_out)
+			Jsonbyte, err := json.Marshal(Customer_struct_out)
 			if err != nil {
 				ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				continue
@@ -185,14 +185,14 @@ func (Connector *Connector) StartTelegram(ctx context.Context) {
 
 			switch Text {
 			case "all":
-				sku_map_data, err := ConnectorV.GetAllsku(ConnectorV.DataBaseType)
+				customer_map_data, err := ConnectorV.GetAllCustomer(ConnectorV.DataBaseType)
 
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
 				}
 
-				JSONbyte, err := json.Marshal(sku_map_data)
+				JSONbyte, err := json.Marshal(customer_map_data)
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
@@ -215,14 +215,14 @@ func (Connector *Connector) StartTelegram(ctx context.Context) {
 				bot.Send(msg)
 
 			default:
-				sku_struct_out, err := ConnectorV.FindOneRow(ConnectorV.DataBaseType, Text, rootsctuct.Global_settingsV)
+				Customer_struct_out, err := ConnectorV.FindOneRow(ConnectorV.DataBaseType, Text, rootsctuct.Global_settingsV)
 
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
 				}
 
-				Jsonbyte, err := json.Marshal(sku_struct_out)
+				Jsonbyte, err := json.Marshal(Customer_struct_out)
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
@@ -277,14 +277,14 @@ func (Connector *Connector) StartTelegramChan() {
 
 			switch Text {
 			case "all":
-				sku_map_data, err := ConnectorV.GetAllsku(ConnectorV.DataBaseType)
+				customer_map_data, err := ConnectorV.GetAllCustomer(ConnectorV.DataBaseType)
 
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
 				}
 
-				Jsonbyte, err := json.Marshal(sku_map_data)
+				Jsonbyte, err := json.Marshal(customer_map_data)
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
@@ -307,14 +307,14 @@ func (Connector *Connector) StartTelegramChan() {
 				bot.Send(msg)
 
 			default:
-				sku_struct_out, err := ConnectorV.FindOneRow(ConnectorV.DataBaseType, Text, rootsctuct.Global_settingsV)
+				Customer_struct_out, err := ConnectorV.FindOneRow(ConnectorV.DataBaseType, Text, rootsctuct.Global_settingsV)
 
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
 				}
 
-				JSONbyte, err := json.Marshal(sku_struct_out)
+				JSONbyte, err := json.Marshal(Customer_struct_out)
 				if err != nil {
 					ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 					continue
@@ -360,33 +360,33 @@ func (Connector *Connector) InitDataBase() error {
 	case "MongoDB":
 
 		//temporary
-		//collectionMongoDB = GetCollectionMongoBD("CRM", "skus", "mongodb://10.1.99.32:32768")
+		//collectionMongoDB = GetCollectionMongoBD("CRM", "customers", "mongodb://10.1.99.32:32768")
 		//"mongodb://10.1.99.32:32768"
-		Connector.CollectionMongoDB = GetCollectionMongoBD("CRM", "skus", Connector.Global_settings.AddressMongoBD)
+		Connector.CollectionMongoDB = GetCollectionMongoBD("CRM", "customers", Connector.Global_settings.AddressMongoBD)
 
 	default:
 
-		var Arraysku []rootsctuct.sku_struct
+		var ArrayCustomer []rootsctuct.Customer_struct
 
-		Arraysku = append(Arraysku, rootsctuct.sku_struct{
+		ArrayCustomer = append(ArrayCustomer, rootsctuct.Customer_struct{
 			sku_id:    "777",
-			sku_name:  "Dmitry",
-			sku_type:  "Cust",
-			sku_email: "fff@mail.ru",
+			Customer_name:  "Dmitry",
+			Customer_type:  "Cust",
+			Customer_email: "fff@mail.ru",
 		})
 
-		Arraysku = append(Arraysku, rootsctuct.sku_struct{
+		ArrayCustomer = append(ArrayCustomer, rootsctuct.Customer_struct{
 			sku_id:    "666",
-			sku_name:  "Alex",
-			sku_type:  "Cust_Fiz",
-			sku_email: "44fish@mail.ru",
+			Customer_name:  "Alex",
+			Customer_type:  "Cust_Fiz",
+			Customer_email: "44fish@mail.ru",
 		})
 
-		var mapForEngineCRM = make(map[string]rootsctuct.sku_struct)
+		var mapForEngineCRM = make(map[string]rootsctuct.Customer_struct)
 		Connector.DemoDBmap = mapForEngineCRM
 
 		Connector.Mutex.Lock()
-		for _, p := range Arraysku {
+		for _, p := range ArrayCustomer {
 			Connector.DemoDBmap[p.sku_id] = p
 		}
 		Connector.Mutex.Unlock()
@@ -404,10 +404,10 @@ func (Connector *Connector) ConsumeFromQueueFor1C() {
 		//return nil, err
 	}
 
-	// var sku_map_json = make(map[string]rootsctuct.sku_struct)
+	// var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
 	q, err := Connector.RabbitMQchannel.QueueDeclare(
-		"sku___add_change", // name
+		"Customer___add_change", // name
 		false,                   // durable
 		false,                   // delete when unused
 		false,                   // exclusive
@@ -460,17 +460,17 @@ func (Connector *Connector) ConsumeFromQueueFor1C() {
 
 }
 
-func (Connector *Connector) ConsumeFromQueue() (map[string]rootsctuct.sku_struct, error) {
+func (Connector *Connector) ConsumeFromQueue() (map[string]rootsctuct.Customer_struct, error) {
 
 	if Connector.RabbitMQchannel == nil {
 		err := errors.New("Connection to RabbitMQ not established")
 		return nil, err
 	}
 
-	var sku_map_json = make(map[string]rootsctuct.sku_struct)
+	var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
 	q, err := Connector.RabbitMQchannel.QueueDeclare(
-		"sku___add_change", // name
+		"Customer___add_change", // name
 		false,                   // durable
 		false,                   // delete when unused
 		false,                   // exclusive
@@ -518,14 +518,14 @@ func (Connector *Connector) ConsumeFromQueue() (map[string]rootsctuct.sku_struct
 			select {
 			case msg := <-msgs:
 				fmt.Println("msg = ", msg)
-				sku_struct := rootsctuct.sku_struct{}
+				Customer_struct := rootsctuct.Customer_struct{}
 
-				err = json.Unmarshal(msg.Body, &sku_struct)
+				err = json.Unmarshal(msg.Body, &Customer_struct)
 				if err != nil {
 					Connector.LoggerConn.ErrorLogger.Println(err.Error())
 				}
 
-				sku_map_json[sku_struct.sku_id] = sku_struct
+				customer_map_json[Customer_struct.sku_id] = Customer_struct
 
 			default:
 				// break LOOP
@@ -540,11 +540,11 @@ func (Connector *Connector) ConsumeFromQueue() (map[string]rootsctuct.sku_struct
 	Connector.RabbitMQchannel.Close()
 	Connector.InitRabbitMQ()
 
-	return sku_map_json, nil
+	return customer_map_json, nil
 
 }
 
-func (Connector *Connector) SendInQueue(sku_struct rootsctuct.sku_struct) error {
+func (Connector *Connector) SendInQueue(Customer_struct rootsctuct.Customer_struct) error {
 
 	if Connector.RabbitMQchannel == nil {
 		err := errors.New("Connection to RabbitMQ not established")
@@ -552,7 +552,7 @@ func (Connector *Connector) SendInQueue(sku_struct rootsctuct.sku_struct) error 
 	}
 
 	q, err := Connector.RabbitMQchannel.QueueDeclare(
-		"sku___add_change", // name
+		"Customer___add_change", // name
 		false,                   // durable
 		false,                   // delete when unused
 		false,                   // exclusive
@@ -563,7 +563,7 @@ func (Connector *Connector) SendInQueue(sku_struct rootsctuct.sku_struct) error 
 		return err
 	}
 
-	bodyJSON, err := json.Marshal(sku_struct)
+	bodyJSON, err := json.Marshal(Customer_struct)
 	if err != nil {
 		return err
 	}
@@ -679,7 +679,7 @@ func (Connector *Connector) ParseXMLFrom1C(body []byte) ([]rootsctuct.Log1C, err
 		return nil, err
 	}
 
-	// var sku_map_xml = make(map[string]rootsctuct.sku_struct)
+	// var customer_map_xml = make(map[string]rootsctuct.Customer_struct)
 	var Log1C_slice []rootsctuct.Log1C
 
 	// Custromers := doc.SelectElement("Custromers")
@@ -689,7 +689,7 @@ func (Connector *Connector) ParseXMLFrom1C(body []byte) ([]rootsctuct.Log1C, err
 
 	for _, Event := range EventLog.SelectElements("v8e:Event") {
 
-		// 	sku_struct := rootsctuct.sku_struct{}
+		// 	Customer_struct := rootsctuct.Customer_struct{}
 		// 	//fmt.Println("CHILD element:", Custromer.Tag)
 		Log1C := rootsctuct.Log1C{}
 
@@ -937,7 +937,7 @@ func (Connector *Connector) SendInElastichSearchNew(Log1C_slice []rootsctuct.Eve
 	// // +++ Search with a term query
 	// termQuery := elastic.NewTermQuery("TransactionID", "11.09.2020 15:12:07 (1446734)")
 	// searchResult, err := clientElasticSerch.Search().
-	// 	Index("transactionid").      // search in index "crm_sku"
+	// 	Index("transactionid").      // search in index "crm_customer"
 	// 	Query(termQuery).            // specify the query
 	// 	Sort("TransactionID", true). // sort by "user" field, ascending
 	// 	From(0).Size(10).            // take documents 0-9
@@ -954,7 +954,7 @@ func (Connector *Connector) SendInElastichSearchNew(Log1C_slice []rootsctuct.Eve
 	// var ttyp rootsctuct.Log1C
 	// for _, item := range searchResult.Each(reflect.TypeOf(ttyp)) {
 	// 	t := item.(rootsctuct.Log1C)
-	// 	//fmt.Fprintf(w, "sku_id: %s sku_name: %s", t.TransactionID, t.TransactionID)
+	// 	//fmt.Fprintf(w, "sku_id: %s customer_name: %s", t.TransactionID, t.TransactionID)
 	// 	fmt.Printf("TransactionID: %s", t.TransactionID)
 	// }
 	// fmt.Printf("Found a total of %d records\n", searchResult.TotalHits())
@@ -1412,7 +1412,7 @@ func (Connector *Connector) SendInElastichSearchOld(Log1C_slice []rootsctuct.Log
 	// // +++ Search with a term query
 	// termQuery := elastic.NewTermQuery("TransactionID", "11.09.2020 15:12:07 (1446734)")
 	// searchResult, err := clientElasticSerch.Search().
-	// 	Index("transactionid").      // search in index "crm_sku"
+	// 	Index("transactionid").      // search in index "crm_customer"
 	// 	Query(termQuery).            // specify the query
 	// 	Sort("TransactionID", true). // sort by "user" field, ascending
 	// 	From(0).Size(10).            // take documents 0-9
@@ -1429,7 +1429,7 @@ func (Connector *Connector) SendInElastichSearchOld(Log1C_slice []rootsctuct.Log
 	// var ttyp rootsctuct.Log1C
 	// for _, item := range searchResult.Each(reflect.TypeOf(ttyp)) {
 	// 	t := item.(rootsctuct.Log1C)
-	// 	//fmt.Fprintf(w, "sku_id: %s sku_name: %s", t.TransactionID, t.TransactionID)
+	// 	//fmt.Fprintf(w, "sku_id: %s customer_name: %s", t.TransactionID, t.TransactionID)
 	// 	fmt.Printf("TransactionID: %s", t.TransactionID)
 	// }
 	// fmt.Printf("Found a total of %d records\n", searchResult.TotalHits())
@@ -1447,31 +1447,31 @@ func (Connector *Connector) SendInElastichSearchOld(Log1C_slice []rootsctuct.Log
 
 }
 
-func (Connector *Connector) GetAllsku(DataBaseType string) (map[string]rootsctuct.sku_struct, error) {
+func (Connector *Connector) GetAllCustomer(DataBaseType string) (map[string]rootsctuct.Customer_struct, error) {
 
-	var sku_map_s = make(map[string]rootsctuct.sku_struct)
+	var customer_map_s = make(map[string]rootsctuct.Customer_struct)
 
 	switch DataBaseType {
 	case "MongoDB":
 
 		cur, err := Connector.CollectionMongoDB.Find(context.Background(), bson.D{})
 		if err != nil {
-			return sku_map_s, err
+			return customer_map_s, err
 		}
 		defer cur.Close(context.Background())
 
-		sku_struct_slice := []rootsctuct.sku_struct{}
+		Customer_struct_slice := []rootsctuct.Customer_struct{}
 
 		for cur.Next(context.Background()) {
 
-			sku_struct_out := rootsctuct.sku_struct{}
+			Customer_struct_out := rootsctuct.Customer_struct{}
 
-			err := cur.Decode(&sku_struct_out)
+			err := cur.Decode(&Customer_struct_out)
 			if err != nil {
-				return sku_map_s, err
+				return customer_map_s, err
 			}
 
-			sku_struct_slice = append(sku_struct_slice, sku_struct_out)
+			Customer_struct_slice = append(Customer_struct_slice, Customer_struct_out)
 
 			// To get the raw bson bytes use cursor.Current
 			// // raw := cur.Current
@@ -1479,14 +1479,14 @@ func (Connector *Connector) GetAllsku(DataBaseType string) (map[string]rootsctuc
 			// do something with raw...
 		}
 		if err := cur.Err(); err != nil {
-			return sku_map_s, err
+			return customer_map_s, err
 		}
 
-		for _, p := range sku_struct_slice {
-			sku_map_s[p.sku_id] = p
+		for _, p := range Customer_struct_slice {
+			customer_map_s[p.sku_id] = p
 		}
 
-		return sku_map_s, nil
+		return customer_map_s, nil
 
 	case "Redis":
 
@@ -1498,14 +1498,14 @@ func (Connector *Connector) GetAllsku(DataBaseType string) (map[string]rootsctuc
 
 		if err != nil {
 			Connector.LoggerConn.ErrorLogger.Println("key2 does not exist")
-			return sku_map_s, err
+			return customer_map_s, err
 		}
 
 		//fmt.Println(cursor1, keys1)
 
-		sku_struct_slice := []rootsctuct.sku_struct{}
+		Customer_struct_slice := []rootsctuct.Customer_struct{}
 		for _, value := range cursor1 {
-			p := rootsctuct.sku_struct{}
+			p := rootsctuct.Customer_struct{}
 			//IDString := strconv.FormatInt(int64(i), 10)
 			val2, err := Connector.RedisClient.Get(value).Result()
 			if err == redis.Nil {
@@ -1524,15 +1524,15 @@ func (Connector *Connector) GetAllsku(DataBaseType string) (map[string]rootsctuc
 					continue
 				}
 
-				sku_struct_slice = append(sku_struct_slice, p)
+				Customer_struct_slice = append(Customer_struct_slice, p)
 			}
 		}
 
-		for _, p := range sku_struct_slice {
-			sku_map_s[p.sku_id] = p
+		for _, p := range Customer_struct_slice {
+			customer_map_s[p.sku_id] = p
 		}
 
-		return sku_map_s, nil
+		return customer_map_s, nil
 
 	case "1C_Enterprise":
 		//Connector.Global_settings.Enterprise1CAdress
@@ -1544,19 +1544,19 @@ func (Connector *Connector) GetAllsku(DataBaseType string) (map[string]rootsctuc
 		defer resp.Body.Close()
 
 		body, err := ioutil.ReadAll(resp.Body)
-		var sku_map_json = make(map[string]rootsctuct.sku_struct)
+		var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
-		err = json.Unmarshal(body, &sku_map_json)
+		err = json.Unmarshal(body, &customer_map_json)
 		if err != nil {
 			Connector.LoggerConn.ErrorLogger.Println(err.Error())
 			return nil, err
 		}
 
-		// for _, p := range sku_map_json {
-		// 	sku_map_s[p.sku_id] = p
+		// for _, p := range customer_map_json {
+		// 	customer_map_s[p.sku_id] = p
 		// }
 
-		return sku_map_json, nil
+		return customer_map_json, nil
 
 	default:
 		Connector.Mutex.Lock()
@@ -1568,15 +1568,15 @@ func (Connector *Connector) GetAllsku(DataBaseType string) (map[string]rootsctuc
 
 }
 
-func (Connector *Connector) AddChangeOneRow(DataBaseType string, sku_struct rootsctuct.sku_struct, Global_settings rootsctuct.Global_settings) error {
+func (Connector *Connector) AddChangeOneRow(DataBaseType string, Customer_struct rootsctuct.Customer_struct, Global_settings rootsctuct.Global_settings) error {
 
 	switch DataBaseType {
 
 	case "MongoDB":
 
-		SingleResult := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.M{"sku_id": sku_struct.sku_id})
+		SingleResult := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.M{"sku_id": Customer_struct.sku_id})
 		if SingleResult.Err() != nil {
-			insertResult, err := Connector.CollectionMongoDB.InsertOne(context.TODO(), sku_struct)
+			insertResult, err := Connector.CollectionMongoDB.InsertOne(context.TODO(), Customer_struct)
 			if err != nil {
 				return err
 			}
@@ -1584,12 +1584,12 @@ func (Connector *Connector) AddChangeOneRow(DataBaseType string, sku_struct root
 
 		} else {
 
-			UpdateResult, err := Connector.CollectionMongoDB.UpdateOne(context.TODO(), bson.M{"sku_id": sku_struct.sku_id},
+			UpdateResult, err := Connector.CollectionMongoDB.UpdateOne(context.TODO(), bson.M{"sku_id": Customer_struct.sku_id},
 				bson.M{"$set": bson.M{
-					"sku_id":    sku_struct.sku_id,
-					"sku_name":  sku_struct.sku_name,
-					"sku_type":  sku_struct.sku_type,
-					"sku_email": sku_struct.sku_email,
+					"sku_id":    Customer_struct.sku_id,
+					"customer_name":  Customer_struct.Customer_name,
+					"customer_type":  Customer_struct.Customer_type,
+					"customer_email": Customer_struct.Customer_email,
 				}})
 
 			if err != nil {
@@ -1601,19 +1601,19 @@ func (Connector *Connector) AddChangeOneRow(DataBaseType string, sku_struct root
 
 	case "Redis":
 
-		JsonStr, err := json.Marshal(sku_struct)
+		JsonStr, err := json.Marshal(Customer_struct)
 		if err != nil {
 			return err
 		}
 
-		err = Connector.RedisClient.Set(sku_struct.sku_id, string(JsonStr), 0).Err()
+		err = Connector.RedisClient.Set(Customer_struct.sku_id, string(JsonStr), 0).Err()
 		if err != nil {
 			return err
 		}
 
 	case "1C_Enterprise":
 
-		bytesRepresentation, err := json.Marshal(sku_struct)
+		bytesRepresentation, err := json.Marshal(Customer_struct)
 		if err != nil {
 			return err
 		}
@@ -1632,7 +1632,7 @@ func (Connector *Connector) AddChangeOneRow(DataBaseType string, sku_struct root
 
 	default:
 		Connector.Mutex.Lock()
-		Connector.DemoDBmap[sku_struct.sku_id] = sku_struct
+		Connector.DemoDBmap[Customer_struct.sku_id] = Customer_struct
 		Connector.Mutex.Unlock()
 	}
 
@@ -1672,39 +1672,39 @@ func GetCollectionMongoBD(Database string, Collection string, HostConnect string
 	return client.Database(Database).Collection(Collection)
 }
 
-func (Connector *Connector) FindOneRow(DataBaseType string, id string, Global_settings rootsctuct.Global_settings) (rootsctuct.sku_struct, error) {
+func (Connector *Connector) FindOneRow(DataBaseType string, id string, Global_settings rootsctuct.Global_settings) (rootsctuct.Customer_struct, error) {
 
-	sku_struct_out := rootsctuct.sku_struct{}
+	Customer_struct_out := rootsctuct.Customer_struct{}
 
 	switch DataBaseType {
 	case "MongoDB":
 
-		err := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.D{{"sku_id", id}}).Decode(&sku_struct_out)
+		err := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.D{{"sku_id", id}}).Decode(&Customer_struct_out)
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
-				return sku_struct_out, err
+				return Customer_struct_out, err
 			}
 		}
-		fmt.Printf("found document %v", sku_struct_out)
+		fmt.Printf("found document %v", Customer_struct_out)
 
 	case "Redis":
 
 		val2, err := Connector.RedisClient.Get(id).Result()
 		if err == redis.Nil {
 			Connector.LoggerConn.ErrorLogger.Println("key2 does not exist")
-			return sku_struct_out, err
+			return Customer_struct_out, err
 		} else if err != nil {
 			Connector.LoggerConn.ErrorLogger.Println(err.Error())
-			return sku_struct_out, err
+			return Customer_struct_out, err
 		} else {
-			err = json.Unmarshal([]byte(val2), &sku_struct_out)
+			err = json.Unmarshal([]byte(val2), &Customer_struct_out)
 			if err != nil {
 				Connector.LoggerConn.ErrorLogger.Println(err.Error())
-				return sku_struct_out, err
+				return Customer_struct_out, err
 			}
 
-			return sku_struct_out, nil
+			return Customer_struct_out, nil
 		}
 
 	case "1C_Enterprise":
@@ -1715,7 +1715,7 @@ func (Connector *Connector) FindOneRow(DataBaseType string, id string, Global_se
 		req, err := http.NewRequest("GET", "http://10.1.99.32/REST_test/hs/exchange/custom_json", nil)
 		if err != nil {
 			Connector.LoggerConn.ErrorLogger.Println(err.Error())
-			return sku_struct_out, err
+			return Customer_struct_out, err
 		}
 
 		q := req.URL.Query()
@@ -1728,7 +1728,7 @@ func (Connector *Connector) FindOneRow(DataBaseType string, id string, Global_se
 
 		if err != nil {
 			Connector.LoggerConn.ErrorLogger.Println(err.Error())
-			return sku_struct_out, err
+			return Customer_struct_out, err
 		}
 
 		defer resp.Body.Close()
@@ -1737,27 +1737,27 @@ func (Connector *Connector) FindOneRow(DataBaseType string, id string, Global_se
 		fmt.Println(resp.Status)
 		fmt.Println(string(resp_body))
 
-		var sku_map_json = make(map[string]rootsctuct.sku_struct)
+		var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
-		err = json.Unmarshal(resp_body, &sku_map_json)
+		err = json.Unmarshal(resp_body, &customer_map_json)
 		if err != nil {
 			Connector.LoggerConn.ErrorLogger.Println(err.Error())
-			return sku_struct_out, err
+			return Customer_struct_out, err
 		}
 
-		for _, p := range sku_map_json {
-			sku_struct_out = p
+		for _, p := range customer_map_json {
+			Customer_struct_out = p
 		}
 
-		return sku_struct_out, nil
+		return Customer_struct_out, nil
 
 	default:
 		Connector.Mutex.Lock()
-		sku_struct_out = Connector.DemoDBmap[id]
+		Customer_struct_out = Connector.DemoDBmap[id]
 		Connector.Mutex.Unlock()
 	}
 
-	return sku_struct_out, nil
+	return Customer_struct_out, nil
 }
 
 func (Connector *Connector) DeleteOneRow(DataBaseType string, id string, Global_settings rootsctuct.Global_settings) error {

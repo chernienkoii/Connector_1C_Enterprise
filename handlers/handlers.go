@@ -89,7 +89,7 @@ func RabbitMQ_1C(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 
-		sku_map_json, err := connector.ConnectorV.ConsumeFromQueue()
+		customer_map_json, err := connector.ConnectorV.ConsumeFromQueue()
 
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -97,7 +97,7 @@ func RabbitMQ_1C(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		JsonString, err := json.Marshal(sku_map_json)
+		JsonString, err := json.Marshal(customer_map_json)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, "error json:"+err.Error())
@@ -113,15 +113,15 @@ func RabbitMQ_1C(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, err.Error())
 		}
 
-		var sku_map_json = make(map[string]rootsctuct.sku_struct)
+		var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
-		err = json.Unmarshal(body, &sku_map_json)
+		err = json.Unmarshal(body, &customer_map_json)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, err.Error())
 		}
 
-		for _, p := range sku_map_json {
+		for _, p := range customer_map_json {
 
 			if connector.ConnectorV.Global_settings.UseRabbitMQ {
 				err = connector.ConnectorV.SendInQueue(p)
@@ -148,7 +148,7 @@ func log1C_xml(w http.ResponseWriter, r *http.Request) {
 
 		// Пока по GET ничего не делаем.
 
-		// sku_map_s, err := enginecrm.EngineCRMv.GetAllsku(enginecrm.EngineCRMv.DataBaseType)
+		// customer_map_s, err := enginecrm.EngineCRMv.GetAllCustomer(enginecrm.EngineCRMv.DataBaseType)
 
 		// if err != nil {
 		// 	enginecrm.EngineCRMv.LoggerCRM.ErrorLogger.Println(err.Error())
@@ -161,18 +161,18 @@ func log1C_xml(w http.ResponseWriter, r *http.Request) {
 
 		// Custromers := doc.CreateElement("Custromers")
 
-		// for _, p := range sku_map_s {
+		// for _, p := range customer_map_s {
 		// 	Custromer := Custromers.CreateElement("Custromer")
 		// 	Custromer.CreateAttr("value", p.sku_id)
 
 		// 	id := Custromer.CreateElement("sku_id")
 		// 	id.CreateAttr("value", p.sku_id)
-		// 	name := Custromer.CreateElement("sku_name")
-		// 	name.CreateAttr("value", p.sku_name)
-		// 	type1 := Custromer.CreateElement("sku_type")
-		// 	type1.CreateAttr("value", p.sku_type)
-		// 	email := Custromer.CreateElement("sku_email")
-		// 	email.CreateAttr("value", p.sku_email)
+		// 	name := Custromer.CreateElement("Customer_name")
+		// 	name.CreateAttr("value", p.Customer_name)
+		// 	type1 := Custromer.CreateElement("Customer_type")
+		// 	type1.CreateAttr("value", p.Customer_type)
+		// 	email := Custromer.CreateElement("Customer_email")
+		// 	email.CreateAttr("value", p.Customer_email)
 		// }
 
 		// //doc.CreateText("/xml")
@@ -246,13 +246,13 @@ func log1C_xml(w http.ResponseWriter, r *http.Request) {
 }
 
 // API JSON GET godoc
-// @Summary Exchange sku
-// @Description Get-Set sku
-// @ID Exchange-sku
+// @Summary Exchange Customer
+// @Description Get-Set Customer
+// @ID Exchange-Customer
 // @Accept  json
 // @Produce  json
-// @Param id_sku query string false "id_sku"
-// @Success 200 {array} rootsctuct.sku_struct
+// @Param id_customer query string false "id_customer"
+// @Success 200 {array} rootsctuct.Customer_struct
 // @Header 200 {string} Token "qwerty"
 // @Failure 400 {object} string
 // @Failure 404 {object} string
@@ -263,7 +263,7 @@ func Api_json(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 
-		sku_map_s, err := connector.ConnectorV.GetAllsku(connector.ConnectorV.DataBaseType)
+		customer_map_s, err := connector.ConnectorV.GetAllCustomer(connector.ConnectorV.DataBaseType)
 
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -271,7 +271,7 @@ func Api_json(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		JsonString, err := json.Marshal(sku_map_s)
+		JsonString, err := json.Marshal(customer_map_s)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, "error json:"+err.Error())
@@ -286,15 +286,15 @@ func Api_json(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, err.Error())
 		}
 
-		var sku_map_json = make(map[string]rootsctuct.sku_struct)
+		var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
-		err = json.Unmarshal(body, &sku_map_json)
+		err = json.Unmarshal(body, &customer_map_json)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, err.Error())
 		}
 
-		for _, p := range sku_map_json {
+		for _, p := range customer_map_json {
 			err := connector.ConnectorV.AddChangeOneRow(connector.ConnectorV.DataBaseType, p, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -316,15 +316,15 @@ func Api_json(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, err.Error())
 		}
 
-		var sku_map_json = make(map[string]rootsctuct.sku_struct)
+		var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
-		err = json.Unmarshal(body, &sku_map_json)
+		err = json.Unmarshal(body, &customer_map_json)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, err.Error())
 		}
 
-		for _, p := range sku_map_json {
+		for _, p := range customer_map_json {
 			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.sku_id, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -343,27 +343,27 @@ func Api_json(w http.ResponseWriter, r *http.Request) {
 }
 
 // API JSON godoc
-// @Summary Get all sku
-// @Description Get all sku
-// @ID Get-all-sku
+// @Summary Get all Customer
+// @Description Get all Customer
+// @ID Get-all-Customer
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} rootsctuct.sku_struct
+// @Success 200 {array} rootsctuct.Customer_struct
 // @Header 200 {string} Token "qwerty"
 // @Failure 400 {object} string
 // @Failure 404 {object} string
 // @Failure 500 {object} string
-// @Router /list_sku [get]
-func List_sku(w http.ResponseWriter, r *http.Request) {
+// @Router /list_customer [get]
+func List_customer(w http.ResponseWriter, r *http.Request) {
 
-	tmpl, err := template.ParseFiles("templates/list_sku.html", "templates/header.html")
+	tmpl, err := template.ParseFiles("templates/list_customer.html", "templates/header.html")
 	if err != nil {
 		connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 		fmt.Fprintf(w, err.Error())
 		return
 	}
 
-	sku_map_data, err := connector.ConnectorV.GetAllsku(connector.ConnectorV.DataBaseType)
+	customer_map_data, err := connector.ConnectorV.GetAllCustomer(connector.ConnectorV.DataBaseType)
 
 	if err != nil {
 		connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -371,7 +371,7 @@ func List_sku(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl.ExecuteTemplate(w, "list_sku", sku_map_data)
+	tmpl.ExecuteTemplate(w, "list_customer", customer_map_data)
 
 }
 
@@ -380,7 +380,7 @@ func EditPage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	sku_struct_out, err := connector.ConnectorV.FindOneRow(connector.ConnectorV.DataBaseType, id, rootsctuct.Global_settingsV)
+	Customer_struct_out, err := connector.ConnectorV.FindOneRow(connector.ConnectorV.DataBaseType, id, rootsctuct.Global_settingsV)
 
 	if err != nil {
 		connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -395,7 +395,7 @@ func EditPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl.ExecuteTemplate(w, "edit", sku_struct_out)
+	tmpl.ExecuteTemplate(w, "edit", Customer_struct_out)
 
 }
 
@@ -412,7 +412,7 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/list_sku", 301)
+	http.Redirect(w, r, "/list_customer", 301)
 
 }
 
@@ -423,45 +423,45 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, err.Error())
 	}
 
-	sku_struct_out := rootsctuct.sku_struct{
+	Customer_struct_out := rootsctuct.Customer_struct{
 		sku_id:    r.FormValue("sku_id"),
-		sku_name:  r.FormValue("sku_name"),
-		sku_type:  r.FormValue("sku_type"),
-		sku_email: r.FormValue("sku_email"),
+		Customer_name:  r.FormValue("customer_name"),
+		Customer_type:  r.FormValue("customer_type"),
+		Customer_email: r.FormValue("customer_email"),
 	}
 
-	connector.ConnectorV.AddChangeOneRow(connector.ConnectorV.DataBaseType, sku_struct_out, rootsctuct.Global_settingsV)
+	connector.ConnectorV.AddChangeOneRow(connector.ConnectorV.DataBaseType, Customer_struct_out, rootsctuct.Global_settingsV)
 
 	//return err
 	//fmt.Fprintf(w, err.Error())
 
-	http.Redirect(w, r, "/list_sku", 301)
+	http.Redirect(w, r, "/list_customer", 301)
 
 }
 
-func Add_change_sku(w http.ResponseWriter, r *http.Request) {
+func Add_change_customer(w http.ResponseWriter, r *http.Request) {
 
-	tmpl, err := template.ParseFiles("templates/add_change_sku.html", "templates/header.html")
+	tmpl, err := template.ParseFiles("templates/add_change_customer.html", "templates/header.html")
 	if err != nil {
 		connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 		fmt.Fprintf(w, err.Error())
 		return
 	}
 
-	tmpl.ExecuteTemplate(w, "add_change_sku", nil)
+	tmpl.ExecuteTemplate(w, "add_change_customer", nil)
 
 }
 
-func Postform_add_change_sku(w http.ResponseWriter, r *http.Request) {
+func Postform_add_change_customer(w http.ResponseWriter, r *http.Request) {
 
-	sku_data := rootsctuct.sku_struct{
-		sku_name:  r.FormValue("sku_name"),
+	customer_data := rootsctuct.Customer_struct{
+		Customer_name:  r.FormValue("customer_name"),
 		sku_id:    r.FormValue("sku_id"),
-		sku_type:  r.FormValue("sku_type"),
-		sku_email: r.FormValue("sku_email"),
+		Customer_type:  r.FormValue("customer_type"),
+		Customer_email: r.FormValue("customer_email"),
 	}
 
-	err := connector.ConnectorV.AddChangeOneRow(connector.ConnectorV.DataBaseType, sku_data, rootsctuct.Global_settingsV)
+	err := connector.ConnectorV.AddChangeOneRow(connector.ConnectorV.DataBaseType, customer_data, rootsctuct.Global_settingsV)
 
 	if err != nil {
 		connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -469,7 +469,7 @@ func Postform_add_change_sku(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/list_sku", 302)
+	http.Redirect(w, r, "/list_customer", 302)
 }
 
 func Api_xml(w http.ResponseWriter, r *http.Request) {
@@ -477,7 +477,7 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 
-		sku_map_s, err := connector.ConnectorV.GetAllsku(connector.ConnectorV.DataBaseType)
+		customer_map_s, err := connector.ConnectorV.GetAllCustomer(connector.ConnectorV.DataBaseType)
 
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -490,18 +490,18 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 		Custromers := doc.CreateElement("Custromers")
 
-		for _, p := range sku_map_s {
+		for _, p := range customer_map_s {
 			Custromer := Custromers.CreateElement("Custromer")
 			Custromer.CreateAttr("value", p.sku_id)
 
 			id := Custromer.CreateElement("sku_id")
 			id.CreateAttr("value", p.sku_id)
-			name := Custromer.CreateElement("sku_name")
-			name.CreateAttr("value", p.sku_name)
-			type1 := Custromer.CreateElement("sku_type")
-			type1.CreateAttr("value", p.sku_type)
-			email := Custromer.CreateElement("sku_email")
-			email.CreateAttr("value", p.sku_email)
+			name := Custromer.CreateElement("Customer_name")
+			name.CreateAttr("value", p.Customer_name)
+			type1 := Custromer.CreateElement("Customer_type")
+			type1.CreateAttr("value", p.Customer_type)
+			email := Custromer.CreateElement("Customer_email")
+			email.CreateAttr("value", p.Customer_email)
 		}
 
 		//doc.CreateText("/xml")
@@ -513,8 +513,8 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 	case "POST":
 
-		// test_rez_slice := []skuStruct_xml{}
-		// //var test_rez []sku_struct
+		// test_rez_slice := []CustomerStruct_xml{}
+		// //var test_rez []Customer_struct
 		// if err := xml.Unmarshal(xmlData, &test_rez_slice); err != nil {
 		// 	panic(err)
 		// }
@@ -529,15 +529,15 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 		// body = []byte(`<Custromers>
 		//  <Custromer value="777">
 		//    <sku_id value="777"/>
-		//    <sku_name value="Dmitry"/>
-		//    <sku_type value="Cust"/>
-		//    <sku_email value="fff@mail.ru"/>
+		//    <Customer_name value="Dmitry"/>
+		//    <Customer_type value="Cust"/>
+		//    <Customer_email value="fff@mail.ru"/>
 		//  </Custromer>
 		//  <Custromer value="666">
 		//    <sku_id value="666"/>
-		//    <sku_name value="Alex"/>
-		//    <sku_type value="Cust_Fiz"/>
-		//    <sku_email value="44fish@mail.ru"/>
+		//    <Customer_name value="Alex"/>
+		//    <Customer_type value="Cust_Fiz"/>
+		//    <Customer_email value="44fish@mail.ru"/>
 		//  </Custromer>
 		// </Custromers>`)
 
@@ -546,39 +546,39 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		var sku_map_xml = make(map[string]rootsctuct.sku_struct)
+		var customer_map_xml = make(map[string]rootsctuct.Customer_struct)
 
 		Custromers := doc.SelectElement("Custromers")
 
 		for _, Custromer := range Custromers.SelectElements("Custromer") {
 
-			sku_struct := rootsctuct.sku_struct{}
+			Customer_struct := rootsctuct.Customer_struct{}
 			//fmt.Println("CHILD element:", Custromer.Tag)
 			if sku_id := Custromer.SelectElement("sku_id"); sku_id != nil {
 				value := sku_id.SelectAttrValue("value", "unknown")
-				sku_struct.sku_id = value
+				Customer_struct.sku_id = value
 			}
-			if sku_name := Custromer.SelectElement("sku_name"); sku_name != nil {
-				value := sku_name.SelectAttrValue("value", "unknown")
-				sku_struct.sku_name = value
+			if Customer_name := Custromer.SelectElement("Customer_name"); Customer_name != nil {
+				value := Customer_name.SelectAttrValue("value", "unknown")
+				Customer_struct.Customer_name = value
 			}
-			if sku_type := Custromer.SelectElement("sku_type"); sku_type != nil {
-				value := sku_type.SelectAttrValue("value", "unknown")
-				sku_struct.sku_type = value
-			}
-
-			if sku_email := Custromer.SelectElement("sku_email"); sku_email != nil {
-				value := sku_email.SelectAttrValue("value", "unknown")
-				sku_struct.sku_email = value
+			if Customer_type := Custromer.SelectElement("Customer_type"); Customer_type != nil {
+				value := Customer_type.SelectAttrValue("value", "unknown")
+				Customer_struct.Customer_type = value
 			}
 
-			sku_map_xml[sku_struct.sku_id] = sku_struct
+			if Customer_email := Custromer.SelectElement("Customer_email"); Customer_email != nil {
+				value := Customer_email.SelectAttrValue("value", "unknown")
+				Customer_struct.Customer_email = value
+			}
+
+			customer_map_xml[Customer_struct.sku_id] = Customer_struct
 			// for _, attr := range Custromer.Attr {
 			// 	fmt.Printf("  ATTR: %s=%s\n", attr.Key, attr.Value)
 			// }
 		}
 
-		for _, p := range sku_map_xml {
+		for _, p := range customer_map_xml {
 			err := connector.ConnectorV.AddChangeOneRow(connector.ConnectorV.DataBaseType, p, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -601,39 +601,39 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		var sku_map_xml = make(map[string]rootsctuct.sku_struct)
+		var customer_map_xml = make(map[string]rootsctuct.Customer_struct)
 
 		Custromers := doc.SelectElement("Custromers")
 
 		for _, Custromer := range Custromers.SelectElements("Custromer") {
 
-			sku_struct := rootsctuct.sku_struct{}
+			Customer_struct := rootsctuct.Customer_struct{}
 			//fmt.Println("CHILD element:", Custromer.Tag)
 			if sku_id := Custromer.SelectElement("sku_id"); sku_id != nil {
 				value := sku_id.SelectAttrValue("value", "unknown")
-				sku_struct.sku_id = value
+				Customer_struct.sku_id = value
 			}
-			if sku_name := Custromer.SelectElement("sku_name"); sku_name != nil {
-				value := sku_name.SelectAttrValue("value", "unknown")
-				sku_struct.sku_name = value
+			if Customer_name := Custromer.SelectElement("Customer_name"); Customer_name != nil {
+				value := Customer_name.SelectAttrValue("value", "unknown")
+				Customer_struct.Customer_name = value
 			}
-			if sku_type := Custromer.SelectElement("sku_type"); sku_type != nil {
-				value := sku_type.SelectAttrValue("value", "unknown")
-				sku_struct.sku_type = value
-			}
-
-			if sku_email := Custromer.SelectElement("sku_email"); sku_email != nil {
-				value := sku_email.SelectAttrValue("value", "unknown")
-				sku_struct.sku_email = value
+			if Customer_type := Custromer.SelectElement("Customer_type"); Customer_type != nil {
+				value := Customer_type.SelectAttrValue("value", "unknown")
+				Customer_struct.Customer_type = value
 			}
 
-			sku_map_xml[sku_struct.sku_id] = sku_struct
+			if Customer_email := Custromer.SelectElement("Customer_email"); Customer_email != nil {
+				value := Customer_email.SelectAttrValue("value", "unknown")
+				Customer_struct.Customer_email = value
+			}
+
+			customer_map_xml[Customer_struct.sku_id] = Customer_struct
 			// for _, attr := range Custromer.Attr {
 			// 	fmt.Printf("  ATTR: %s=%s\n", attr.Key, attr.Value)
 			// }
 		}
 
-		for _, p := range sku_map_xml {
+		for _, p := range customer_map_xml {
 			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.sku_id, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -738,7 +738,7 @@ func Test(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 
-		sku_map_s, err := connector.ConnectorV.GetAllsku(connector.ConnectorV.DataBaseType)
+		customer_map_s, err := connector.ConnectorV.GetAllCustomer(connector.ConnectorV.DataBaseType)
 
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -746,7 +746,7 @@ func Test(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		JsonString, err := json.Marshal(sku_map_s)
+		JsonString, err := json.Marshal(customer_map_s)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, "error json:"+err.Error())
@@ -761,15 +761,15 @@ func Test(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, err.Error())
 		}
 
-		var sku_map_json = make(map[string]rootsctuct.sku_struct)
+		var customer_map_json = make(map[string]rootsctuct.Customer_struct)
 
-		err = json.Unmarshal(body, &sku_map_json)
+		err = json.Unmarshal(body, &customer_map_json)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, err.Error())
 		}
 
-		// for _, p := range sku_map_json {
+		// for _, p := range customer_map_json {
 		// 	err := connector.ConnectorV.AddChangeOneRow(connector.ConnectorV.DataBaseType, p, rootsctuct.Global_settingsV)
 		// 	if err != nil {
 		// 		connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -925,7 +925,7 @@ func log1C_zip(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 
-		sku_map_s, err := connector.ConnectorV.GetAllsku(connector.ConnectorV.DataBaseType)
+		customer_map_s, err := connector.ConnectorV.GetAllCustomer(connector.ConnectorV.DataBaseType)
 
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
@@ -933,7 +933,7 @@ func log1C_zip(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		JsonString, err := json.Marshal(sku_map_s)
+		JsonString, err := json.Marshal(customer_map_s)
 		if err != nil {
 			connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 			fmt.Fprintf(w, "error json:"+err.Error())
@@ -1067,14 +1067,14 @@ func StratHandlers() {
 
 	router.HandleFunc("/test_odata_1c", Test_odata_1c)
 
-	router.HandleFunc("/list_sku", List_sku)
+	router.HandleFunc("/list_customer", List_customer)
 
 	router.HandleFunc("/edit/{id:[0-9]+}", EditPage).Methods("GET")
 	router.HandleFunc("/edit/{id:[0-9]+}", EditHandler).Methods("POST")
 	router.HandleFunc("/delete/{id:[0-9]+}", DeleteHandler)
 
-	router.HandleFunc("/add_change_sku", Add_change_sku)
-	router.HandleFunc("/postform_add_change_sku", Postform_add_change_sku)
+	router.HandleFunc("/add_change_customer", Add_change_customer)
+	router.HandleFunc("/postform_add_change_customer", Postform_add_change_customer)
 
 	http.Handle("/", router)
 	fmt.Println("Server is listening...")
