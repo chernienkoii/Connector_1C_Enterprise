@@ -163,10 +163,10 @@ func log1C_xml(w http.ResponseWriter, r *http.Request) {
 
 		// for _, p := range customer_map_s {
 		// 	Custromer := Custromers.CreateElement("Custromer")
-		// 	Custromer.CreateAttr("value", p.Customer_id)
+		// 	Custromer.CreateAttr("value", p.id)
 
-		// 	id := Custromer.CreateElement("Customer_id")
-		// 	id.CreateAttr("value", p.Customer_id)
+		// 	id := Custromer.CreateElement("id")
+		// 	id.CreateAttr("value", p.id)
 		// 	name := Custromer.CreateElement("Customer_name")
 		// 	name.CreateAttr("value", p.Customer_name)
 		// 	type1 := Custromer.CreateElement("Customer_type")
@@ -325,7 +325,7 @@ func Api_json(w http.ResponseWriter, r *http.Request) {
 		}
 
 		for _, p := range customer_map_json {
-			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.Customer_id, rootsctuct.Global_settingsV)
+			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.id, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				fmt.Println(err.Error())
@@ -424,7 +424,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Customer_struct_out := rootsctuct.Customer_struct{
-		Customer_id:    r.FormValue("customer_id"),
+		id:    r.FormValue("id"),
 		Customer_name:  r.FormValue("customer_name"),
 		Customer_type:  r.FormValue("customer_type"),
 		Customer_email: r.FormValue("customer_email"),
@@ -456,7 +456,7 @@ func Postform_add_change_customer(w http.ResponseWriter, r *http.Request) {
 
 	customer_data := rootsctuct.Customer_struct{
 		Customer_name:  r.FormValue("customer_name"),
-		Customer_id:    r.FormValue("customer_id"),
+		id:    r.FormValue("id"),
 		Customer_type:  r.FormValue("customer_type"),
 		Customer_email: r.FormValue("customer_email"),
 	}
@@ -492,10 +492,10 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 		for _, p := range customer_map_s {
 			Custromer := Custromers.CreateElement("Custromer")
-			Custromer.CreateAttr("value", p.Customer_id)
+			Custromer.CreateAttr("value", p.id)
 
-			id := Custromer.CreateElement("Customer_id")
-			id.CreateAttr("value", p.Customer_id)
+			id := Custromer.CreateElement("id")
+			id.CreateAttr("value", p.id)
 			name := Custromer.CreateElement("Customer_name")
 			name.CreateAttr("value", p.Customer_name)
 			type1 := Custromer.CreateElement("Customer_type")
@@ -528,13 +528,13 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 		// body = []byte(`<Custromers>
 		//  <Custromer value="777">
-		//    <Customer_id value="777"/>
+		//    <id value="777"/>
 		//    <Customer_name value="Dmitry"/>
 		//    <Customer_type value="Cust"/>
 		//    <Customer_email value="fff@mail.ru"/>
 		//  </Custromer>
 		//  <Custromer value="666">
-		//    <Customer_id value="666"/>
+		//    <id value="666"/>
 		//    <Customer_name value="Alex"/>
 		//    <Customer_type value="Cust_Fiz"/>
 		//    <Customer_email value="44fish@mail.ru"/>
@@ -554,9 +554,9 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 			Customer_struct := rootsctuct.Customer_struct{}
 			//fmt.Println("CHILD element:", Custromer.Tag)
-			if Customer_id := Custromer.SelectElement("Customer_id"); Customer_id != nil {
-				value := Customer_id.SelectAttrValue("value", "unknown")
-				Customer_struct.Customer_id = value
+			if id := Custromer.SelectElement("id"); id != nil {
+				value := id.SelectAttrValue("value", "unknown")
+				Customer_struct.id = value
 			}
 			if Customer_name := Custromer.SelectElement("Customer_name"); Customer_name != nil {
 				value := Customer_name.SelectAttrValue("value", "unknown")
@@ -572,7 +572,7 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 				Customer_struct.Customer_email = value
 			}
 
-			customer_map_xml[Customer_struct.Customer_id] = Customer_struct
+			customer_map_xml[Customer_struct.id] = Customer_struct
 			// for _, attr := range Custromer.Attr {
 			// 	fmt.Printf("  ATTR: %s=%s\n", attr.Key, attr.Value)
 			// }
@@ -609,9 +609,9 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 			Customer_struct := rootsctuct.Customer_struct{}
 			//fmt.Println("CHILD element:", Custromer.Tag)
-			if Customer_id := Custromer.SelectElement("Customer_id"); Customer_id != nil {
-				value := Customer_id.SelectAttrValue("value", "unknown")
-				Customer_struct.Customer_id = value
+			if id := Custromer.SelectElement("id"); id != nil {
+				value := id.SelectAttrValue("value", "unknown")
+				Customer_struct.id = value
 			}
 			if Customer_name := Custromer.SelectElement("Customer_name"); Customer_name != nil {
 				value := Customer_name.SelectAttrValue("value", "unknown")
@@ -627,14 +627,14 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 				Customer_struct.Customer_email = value
 			}
 
-			customer_map_xml[Customer_struct.Customer_id] = Customer_struct
+			customer_map_xml[Customer_struct.id] = Customer_struct
 			// for _, attr := range Custromer.Attr {
 			// 	fmt.Printf("  ATTR: %s=%s\n", attr.Key, attr.Value)
 			// }
 		}
 
 		for _, p := range customer_map_xml {
-			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.Customer_id, rootsctuct.Global_settingsV)
+			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.id, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				fmt.Println(err.Error())
@@ -654,7 +654,7 @@ func Test_odata_1c(w http.ResponseWriter, r *http.Request) {
 
 	client := &http.Client{}
 
-	req, err := http.NewRequest("GET", "http://localhost/REST_test/odata/standard.odata/Catalog_Клиенты?$format=json", nil)
+	req, err := http.NewRequest("GET", "http://10.1.99.32/REST_test/odata/standard.odata/Catalog_Клиенты?$format=json", nil)
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 	}
@@ -1037,7 +1037,7 @@ func log1C_zip(w http.ResponseWriter, r *http.Request) {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8181
+// @host 10.1.99.32:8181
 // @BasePath /v2
 
 func StratHandlers() {
@@ -1050,7 +1050,7 @@ func StratHandlers() {
 	// https://github.com/swaggo/swag
 	// swag init -g handlers/handlers.go
 	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
-		httpSwagger.URL("http://localhost:8181/swagger/doc.json"), //The url pointing to API definition
+		httpSwagger.URL("http://10.1.99.32:8181/swagger/doc.json"), //The url pointing to API definition
 		httpSwagger.DeepLinking(true),
 		httpSwagger.DocExpansion("none"),
 		httpSwagger.DomID("#swagger-ui"),
