@@ -1,4 +1,4 @@
-module github.com/dmitry-msk777/Connector_1C_Enterprise
+module github.com/chernienkoii/Connector_1C_Enterprise
 
 go 1.13
 

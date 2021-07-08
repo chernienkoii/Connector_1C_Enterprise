@@ -21,7 +21,7 @@ var doc = `{
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "Dmitry",
-            "url": "https://github.com/dmitry-msk777/Connector_1C_Enterprise"
+            "url": "https://github.com/chernienkoii/Connector_1C_Enterprise"
         },
         "license": {
             "name": "Apache 2.0",

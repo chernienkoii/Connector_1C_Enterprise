@@ -26,7 +26,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 
-	rootsctuct "github.com/dmitry-msk777/Connector_1C_Enterprise/rootdescription"
+	rootsctuct "github.com/chernienkoii/Connector_1C_Enterprise/rootdescription"
 )
 
 // ConnectorV центральная переменная (своего рода движек)

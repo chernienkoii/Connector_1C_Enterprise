@@ -1,9 +1,9 @@
 package main
 
 import (
-	connector "github.com/dmitry-msk777/Connector_1C_Enterprise/connector"
-	handlers "github.com/dmitry-msk777/Connector_1C_Enterprise/handlers"
-	rootsctuct "github.com/dmitry-msk777/Connector_1C_Enterprise/rootdescription"
+	connector "github.com/chernienkoii/Connector_1C_Enterprise/connector"
+	handlers "github.com/chernienkoii/Connector_1C_Enterprise/handlers"
+	rootsctuct "github.com/chernienkoii/Connector_1C_Enterprise/rootdescription"
 )
 
 func main() {

@@ -24,7 +24,7 @@ host: localhost:8181
 info:
   contact:
     name: Dmitry
-    url: https://github.com/dmitry-msk777/Connector_1C_Enterprise
+    url: https://github.com/chernienkoii/Connector_1C_Enterprise
   description: API description
   license:
     name: Apache 2.0
