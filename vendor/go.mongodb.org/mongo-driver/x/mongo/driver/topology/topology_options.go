@@ -38,7 +38,7 @@ type config struct {
 
 func newConfig(opts ...Option) (*config, error) {
 	cfg := &config{
-		seedList:               []string{"localhost:27017"},
+		seedList:               []string{"10.1.99.32:27017"},
 		serverSelectionTimeout: 30 * time.Second,
 	}
 

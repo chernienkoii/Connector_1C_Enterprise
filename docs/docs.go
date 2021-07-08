@@ -158,7 +158,7 @@ var doc = `{
                 "customer_email": {
                     "type": "string"
                 },
-                "customer_id": {
+                "id": {
                     "type": "string"
                 },
                 "customer_name": {
@@ -184,7 +184,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8181",
+	Host:        "10.1.99.32:8181",
 	BasePath:    "/v2",
 	Schemes:     []string{},
 	Title:       "Swagger API Connector for 1C Enterprise",

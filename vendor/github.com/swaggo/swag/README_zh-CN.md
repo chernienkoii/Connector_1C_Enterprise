@@ -119,7 +119,7 @@ import "github.com/swaggo/files" // swagger embed files
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8080
+// @host 10.1.99.32:8080
 // @BasePath /api/v1
 // @query.collection.format multi
 
@@ -289,7 +289,7 @@ func (c *Controller) ListAccounts(ctx *gin.Context) {
 swag init
 ```
 
-4. 运行程序，然后在浏览器中访问 http://localhost:8080/swagger/index.html。将看到Swagger 2.0 Api文档，如下所示：
+4. 运行程序，然后在浏览器中访问 http://10.1.99.32:8080/swagger/index.html。将看到Swagger 2.0 Api文档，如下所示：
 
 ![swagger_index.html](https://raw.githubusercontent.com/swaggo/swag/master/assets/swagger-image.png)
 
@@ -334,7 +334,7 @@ swag init
 | contact.email           | 联系人/组织的电子邮件地址。 必须采用电子邮件地址的格式。                                        | // @contact.email support@swagger.io                            |
 | license.name            | **必填** 用于API的许可证名称。                                                                  | // @license.name Apache 2.0                                     |
 | license.url             | 用于API的许可证的URL。 必须采用网址格式。                                                       | // @license.url http://www.apache.org/licenses/LICENSE-2.0.html |
-| host                    | 运行API的主机（主机名或IP地址）。                                                               | // @host localhost:8080                                         |
+| host                    | 运行API的主机（主机名或IP地址）。                                                               | // @host 10.1.99.32:8080                                         |
 | BasePath                | 运行API的基本路径。                                                                             | // @BasePath /api/v1                                            |
 | query.collection.format | 请求URI query里数组参数的默认格式：csv，multi，pipes，tsv，ssv。 如果未设置，则默认为csv。 | // @query.collection.format multi                               |
 | schemes                 | 用空格分隔的请求的传输协议。                                                                    | // @schemes http https                                          |

@@ -21,7 +21,7 @@ The workflow is pretty standard:
 
 The test suite assumes that:
 
- * A RabbitMQ node is running on localhost with all defaults: [https://www.rabbitmq.com/download.html](https://www.rabbitmq.com/download.html)
+ * A RabbitMQ node is running on 10.1.99.32 with all defaults: [https://www.rabbitmq.com/download.html](https://www.rabbitmq.com/download.html)
  * `AMQP_URL` is exported to `amqp://guest:guest@127.0.0.1:5672/`
 
 ### Integration Tests

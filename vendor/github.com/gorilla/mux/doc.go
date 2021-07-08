@@ -156,7 +156,7 @@ request that matches "/static/*". This makes it easy to serve static files with 
 		flag.Parse()
 		r := mux.NewRouter()
 
-		// This will serve files under http://localhost:8000/static/<filename>
+		// This will serve files under http://10.1.99.32:8000/static/<filename>
 		r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
 
 		srv := &http.Server{

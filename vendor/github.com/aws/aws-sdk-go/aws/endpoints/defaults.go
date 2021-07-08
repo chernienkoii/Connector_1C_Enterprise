@@ -1978,7 +1978,7 @@ var awsPartition = partition{
 				"eu-west-2":    endpoint{},
 				"eu-west-3":    endpoint{},
 				"local": endpoint{
-					Hostname:  "localhost:8000",
+					Hostname:  "10.1.99.32:8000",
 					Protocols: []string{"http"},
 					CredentialScope: credentialScope{
 						Region: "us-east-1",
@@ -5941,7 +5941,7 @@ var awsPartition = partition{
 				"eu-west-2":    endpoint{},
 				"eu-west-3":    endpoint{},
 				"local": endpoint{
-					Hostname:  "localhost:8000",
+					Hostname:  "10.1.99.32:8000",
 					Protocols: []string{"http"},
 					CredentialScope: credentialScope{
 						Region: "us-east-1",

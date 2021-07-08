@@ -449,7 +449,7 @@ func (c *Client) configure(opts *options.ClientOptions) error {
 		))
 	}
 	// Hosts
-	hosts := []string{"localhost:27017"} // default host
+	hosts := []string{"10.1.99.32:27017"} // default host
 	if len(opts.Hosts) > 0 {
 		hosts = opts.Hosts
 	}

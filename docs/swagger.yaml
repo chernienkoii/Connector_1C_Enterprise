@@ -13,14 +13,14 @@ definitions:
         $ref: '#/definitions/rootdescription.Address_Struct'
       customer_email:
         type: string
-      customer_id:
+      id:
         type: string
       customer_name:
         type: string
       customer_type:
         type: string
     type: object
-host: localhost:8181
+host: 10.1.99.32:8181
 info:
   contact:
     name: Dmitry

@@ -116,7 +116,7 @@ func (s *CatShardsService) MasterTimeout(masterTimeout string) *CatShardsService
 // in your terminal:
 //
 // Example:
-//   curl 'http://localhost:9200/_cat/shards?help'
+//   curl 'http://10.1.99.32:9200/_cat/shards?help'
 //
 // You can use Columns("*") to return all possible columns. That might take
 // a little longer than the default set of columns.

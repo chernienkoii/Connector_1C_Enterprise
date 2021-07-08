@@ -11,14 +11,14 @@
 // Basic usage of the driver starts with creating a Client from a connection
 // string. To do so, call the NewClient and Connect functions:
 //
-// 		client, err := NewClient(options.Client().ApplyURI("mongodb://foo:bar@localhost:27017"))
+// 		client, err := NewClient(options.Client().ApplyURI("mongodb://foo:bar@10.1.99.32:27017"))
 // 		if err != nil { return err }
 // 		ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 // 		defer cancel()
 // 		err = client.Connect(ctx)
 // 		if err != nil { return err }
 //
-// This will create a new client and start monitoring the MongoDB server on localhost.
+// This will create a new client and start monitoring the MongoDB server on 10.1.99.32.
 // The Database and Collection types can be used to access the database:
 //
 //    collection := client.Database("baz").Collection("qux")

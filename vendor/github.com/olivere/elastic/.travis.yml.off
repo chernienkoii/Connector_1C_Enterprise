@@ -34,8 +34,8 @@ before_install:
 - go get -u github.com/google/go-cmp/cmp
 - go get -u github.com/fortytw2/leaktest
 - go get . ./aws/... ./config/... ./trace/... ./uritemplates/...
-- while ! nc -z localhost 9200; do sleep 1; done
-- while ! nc -z localhost 9210; do sleep 1; done
+- while ! nc -z 10.1.99.32 9200; do sleep 1; done
+- while ! nc -z 10.1.99.32 9210; do sleep 1; done
 install: true # ignore the go get -t -v ./...
 script:
 - go test -race -deprecations -strict-decoder -v . ./aws/... ./config/... ./trace/... ./uritemplates/...

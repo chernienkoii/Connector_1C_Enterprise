@@ -25,7 +25,7 @@ func (a Address) Network() string {
 	return "tcp"
 }
 
-// String is the canonical version of this address, e.g. localhost:27017,
+// String is the canonical version of this address, e.g. 10.1.99.32:27017,
 // 1.2.3.4:27017, example.com:27017.
 func (a Address) String() string {
 	// TODO: unicode case folding?

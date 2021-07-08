@@ -108,7 +108,7 @@ type Options struct {
 
 func (opt *Options) init() {
 	if opt.Addr == "" {
-		opt.Addr = "localhost:6379"
+		opt.Addr = "10.1.99.32:6379"
 	}
 	if opt.Network == "" {
 		if strings.HasPrefix(opt.Addr, "/") {
@@ -207,7 +207,7 @@ func ParseURL(redisURL string) (*Options, error) {
 		h = u.Host
 	}
 	if h == "" {
-		h = "localhost"
+		h = "10.1.99.32"
 	}
 	if p == "" {
 		p = "6379"

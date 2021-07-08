@@ -14,7 +14,7 @@ var Global_settingsV Global_settings
 var LoggerConnV LoggerConn
 
 type Customer_struct struct {
-	Customer_id    string
+	id    string
 	Customer_name  string
 	Customer_type  string
 	Customer_email string

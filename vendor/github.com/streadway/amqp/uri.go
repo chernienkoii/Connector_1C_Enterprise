@@ -23,7 +23,7 @@ var schemePorts = map[string]int{
 
 var defaultURI = URI{
 	Scheme:   "amqp",
-	Host:     "localhost",
+	Host:     "10.1.99.32",
 	Port:     5672,
 	Username: "guest",
 	Password: "guest",
@@ -46,7 +46,7 @@ type URI struct {
 // Default values for the fields are:
 //
 //   Scheme: amqp
-//   Host: localhost
+//   Host: 10.1.99.32
 //   Port: 5672
 //   Username: guest
 //   Password: guest

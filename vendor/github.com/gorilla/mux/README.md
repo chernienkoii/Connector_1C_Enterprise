@@ -197,7 +197,7 @@ func main() {
     flag.Parse()
     r := mux.NewRouter()
 
-    // This will serve files under http://localhost:8000/static/<filename>
+    // This will serve files under http://10.1.99.32:8000/static/<filename>
     r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
 
     srv := &http.Server{
@@ -622,7 +622,7 @@ func fooHandler(w http.ResponseWriter, r *http.Request) {
 And an request to `/foo` using something like:
 
 ```bash
-curl localhost:8080/foo -v
+curl 10.1.99.32:8080/foo -v
 ```
 
 Would look like:
@@ -630,9 +630,9 @@ Would look like:
 ```bash
 *   Trying ::1...
 * TCP_NODELAY set
-* Connected to localhost (::1) port 8080 (#0)
+* Connected to 10.1.99.32 (::1) port 8080 (#0)
 > GET /foo HTTP/1.1
-> Host: localhost:8080
+> Host: 10.1.99.32:8080
 > User-Agent: curl/7.59.0
 > Accept: */*
 > 
@@ -643,7 +643,7 @@ Would look like:
 < Content-Length: 3
 < Content-Type: text/plain; charset=utf-8
 < 
-* Connection #0 to host localhost left intact
+* Connection #0 to host 10.1.99.32 left intact
 foo
 ```
 
@@ -671,7 +671,7 @@ func main() {
     r := mux.NewRouter()
     r.HandleFunc("/health", HealthCheckHandler)
 
-    log.Fatal(http.ListenAndServe("localhost:8080", r))
+    log.Fatal(http.ListenAndServe("10.1.99.32:8080", r))
 }
 ```
 
@@ -729,7 +729,7 @@ func main() {
     // A route with a route variable:
     r.HandleFunc("/metrics/{type}", MetricsHandler)
 
-    log.Fatal(http.ListenAndServe("localhost:8080", r))
+    log.Fatal(http.ListenAndServe("10.1.99.32:8080", r))
 }
 ```
 

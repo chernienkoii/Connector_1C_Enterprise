@@ -70,8 +70,8 @@ type ContextDialer interface {
 // (e.g. "authSource=otherDb").
 //
 // Username: the username for authentication. This can also be set through the URI as a username:password pair before
-// the first @ character. For example, a URI for user "user", password "pwd", and host "localhost:27017" would be
-// "mongodb://user:pwd@localhost:27017". This is optional for X509 authentication and will be extracted from the
+// the first @ character. For example, a URI for user "user", password "pwd", and host "10.1.99.32:27017" would be
+// "mongodb://user:pwd@10.1.99.32:27017". This is optional for X509 authentication and will be extracted from the
 // client certificate if not specified.
 //
 // Password: the password for authentication. This must not be specified for X509 and is optional for GSSAPI
@@ -471,8 +471,8 @@ func (c *ClientOptions) SetHeartbeatInterval(d time.Duration) *ClientOptions {
 // SetHosts specifies a list of host names or IP addresses for servers in a cluster. Both IPv4 and IPv6 addresses are
 // supported. IPv6 literals must be enclosed in '[]' following RFC-2732 syntax.
 //
-// Hosts can also be specified as a comma-separated list in a URI. For example, to include "localhost:27017" and
-// "localhost:27018", a URI could be "mongodb://localhost:27017,localhost:27018". The default is ["localhost:27017"]
+// Hosts can also be specified as a comma-separated list in a URI. For example, to include "10.1.99.32:27017" and
+// "10.1.99.32:27018", a URI could be "mongodb://10.1.99.32:27017,10.1.99.32:27018". The default is ["10.1.99.32:27017"]
 func (c *ClientOptions) SetHosts(s []string) *ClientOptions {
 	c.Hosts = s
 	return c
