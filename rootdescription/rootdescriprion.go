@@ -13,11 +13,11 @@ var Global_settingsV Global_settings
 
 var LoggerConnV LoggerConn
 
-type Customer_struct struct {
+type sku_struct struct {
 	id    string
-	Customer_name  string
-	Customer_type  string
-	Customer_email string
+	sku_name  string
+	sku_type  string
+	sku_email string
 	Address_Struct Address_Struct
 }
 
@@ -131,7 +131,7 @@ type ViewData struct {
 	Message      string
 	User         string
 	DataBaseType string
-	Customers    map[string]Customer_struct
+	skus    map[string]sku_struct
 }
 
 type Log1C struct {

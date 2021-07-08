@@ -34,20 +34,20 @@ var doc = `{
     "paths": {
         "/api_json": {
             "post": {
-                "description": "Get-Set Customer",
+                "description": "Get-Set sku",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Exchange Customer",
-                "operationId": "Exchange-Customer",
+                "summary": "Exchange sku",
+                "operationId": "Exchange-sku",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "id_customer",
-                        "name": "id_customer",
+                        "description": "id_sku",
+                        "name": "id_sku",
                         "in": "query"
                     }
                 ],
@@ -57,7 +57,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/rootdescription.Customer_struct"
+                                "$ref": "#/definitions/rootdescription.sku_struct"
                             }
                         },
                         "headers": {
@@ -88,24 +88,24 @@ var doc = `{
                 }
             }
         },
-        "/list_customer": {
+        "/list_sku": {
             "get": {
-                "description": "Get all Customer",
+                "description": "Get all sku",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Get all Customer",
-                "operationId": "Get-all-Customer",
+                "summary": "Get all sku",
+                "operationId": "Get-all-sku",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/rootdescription.Customer_struct"
+                                "$ref": "#/definitions/rootdescription.sku_struct"
                             }
                         },
                         "headers": {
@@ -149,22 +149,22 @@ var doc = `{
                 }
             }
         },
-        "rootdescription.Customer_struct": {
+        "rootdescription.sku_struct": {
             "type": "object",
             "properties": {
                 "address_Struct": {
                     "$ref": "#/definitions/rootdescription.Address_Struct"
                 },
-                "customer_email": {
+                "sku_email": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "customer_name": {
+                "sku_name": {
                     "type": "string"
                 },
-                "customer_type": {
+                "sku_type": {
                     "type": "string"
                 }
             }

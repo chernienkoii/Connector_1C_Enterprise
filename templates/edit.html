@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Customer card</title>
+        <title>sku card</title>
     </head>
     <body>
 	{{ template "header" }}
@@ -11,14 +11,14 @@
         <form method="POST">
             <input type="hidden" name="id" value="{{.id}}" />
 
-            <label>Customer name</label><br>
-            <input type="text" name="customer_name" value="{{.Customer_name}}" /><br><br>
+            <label>sku name</label><br>
+            <input type="text" name="sku_name" value="{{.sku_name}}" /><br><br>
 
-            <label>Customer type</label><br>
-            <input type="text" name="customer_type" value="{{.Customer_type}}" /><br><br>
+            <label>sku type</label><br>
+            <input type="text" name="sku_type" value="{{.sku_type}}" /><br><br>
 
-            <label>Customer email</label><br>
-            <input type="text" name="customer_email" value="{{.Customer_email}}" /><br><br>
+            <label>sku email</label><br>
+            <input type="text" name="sku_email" value="{{.sku_email}}" /><br><br>
 
             <input type="submit" value="Send" />
         </form>

@@ -1,25 +1,25 @@
-{{ define "add_change_customer" }}
+{{ define "add_change_sku" }}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Customer card</title>
+        <title>sku card</title>
     </head>
     <body>
 	{{ template "header" }}
-        <h2>Customer card</h2>
-        <form method="POST" action="postform_add_change_customer">
-            <label>Customer name</label><br>
-            <input type="text" name="customer_name" /><br><br>
+        <h2>sku card</h2>
+        <form method="POST" action="postform_add_change_sku">
+            <label>sku name</label><br>
+            <input type="text" name="sku_name" /><br><br>
 			
-            <label>Customer id</label><br>
+            <label>sku id</label><br>
             <input type="number" name="id" /><br><br>
 			
-			<label>Customer type</label><br>
-            <input type="text" name="customer_type" /><br><br>
+			<label>sku type</label><br>
+            <input type="text" name="sku_type" /><br><br>
 			
-			<label>Customer email</label><br>
-            <input type="text" name="customer_email" /><br><br>
+			<label>sku email</label><br>
+            <input type="text" name="sku_email" /><br><br>
 			
             <input type="submit" value="Add" />
         </form>
