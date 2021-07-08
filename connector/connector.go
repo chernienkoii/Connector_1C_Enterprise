@@ -26,7 +26,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 
-	rootsctuct "github.com/chernienkoii/Connector_1C_Enterprise/rootdescription"
+	rootsctuct "github.com/dmitry-msk777/Connector_1C_Enterprise/rootdescription"
 )
 
 // ConnectorV центральная переменная (своего рода движек)
@@ -369,14 +369,14 @@ func (Connector *Connector) InitDataBase() error {
 		var ArrayCustomer []rootsctuct.Customer_struct
 
 		ArrayCustomer = append(ArrayCustomer, rootsctuct.Customer_struct{
-			id:    "777",
+			sku_id:    "777",
 			Customer_name:  "Dmitry",
 			Customer_type:  "Cust",
 			Customer_email: "fff@mail.ru",
 		})
 
 		ArrayCustomer = append(ArrayCustomer, rootsctuct.Customer_struct{
-			id:    "666",
+			sku_id:    "666",
 			Customer_name:  "Alex",
 			Customer_type:  "Cust_Fiz",
 			Customer_email: "44fish@mail.ru",
@@ -387,7 +387,7 @@ func (Connector *Connector) InitDataBase() error {
 
 		Connector.Mutex.Lock()
 		for _, p := range ArrayCustomer {
-			Connector.DemoDBmap[p.id] = p
+			Connector.DemoDBmap[p.sku_id] = p
 		}
 		Connector.Mutex.Unlock()
 
@@ -525,7 +525,7 @@ func (Connector *Connector) ConsumeFromQueue() (map[string]rootsctuct.Customer_s
 					Connector.LoggerConn.ErrorLogger.Println(err.Error())
 				}
 
-				customer_map_json[Customer_struct.id] = Customer_struct
+				customer_map_json[Customer_struct.sku_id] = Customer_struct
 
 			default:
 				// break LOOP
@@ -954,7 +954,7 @@ func (Connector *Connector) SendInElastichSearchNew(Log1C_slice []rootsctuct.Eve
 	// var ttyp rootsctuct.Log1C
 	// for _, item := range searchResult.Each(reflect.TypeOf(ttyp)) {
 	// 	t := item.(rootsctuct.Log1C)
-	// 	//fmt.Fprintf(w, "id: %s customer_name: %s", t.TransactionID, t.TransactionID)
+	// 	//fmt.Fprintf(w, "sku_id: %s customer_name: %s", t.TransactionID, t.TransactionID)
 	// 	fmt.Printf("TransactionID: %s", t.TransactionID)
 	// }
 	// fmt.Printf("Found a total of %d records\n", searchResult.TotalHits())
@@ -1429,7 +1429,7 @@ func (Connector *Connector) SendInElastichSearchOld(Log1C_slice []rootsctuct.Log
 	// var ttyp rootsctuct.Log1C
 	// for _, item := range searchResult.Each(reflect.TypeOf(ttyp)) {
 	// 	t := item.(rootsctuct.Log1C)
-	// 	//fmt.Fprintf(w, "id: %s customer_name: %s", t.TransactionID, t.TransactionID)
+	// 	//fmt.Fprintf(w, "sku_id: %s customer_name: %s", t.TransactionID, t.TransactionID)
 	// 	fmt.Printf("TransactionID: %s", t.TransactionID)
 	// }
 	// fmt.Printf("Found a total of %d records\n", searchResult.TotalHits())
@@ -1483,7 +1483,7 @@ func (Connector *Connector) GetAllCustomer(DataBaseType string) (map[string]root
 		}
 
 		for _, p := range Customer_struct_slice {
-			customer_map_s[p.id] = p
+			customer_map_s[p.sku_id] = p
 		}
 
 		return customer_map_s, nil
@@ -1529,7 +1529,7 @@ func (Connector *Connector) GetAllCustomer(DataBaseType string) (map[string]root
 		}
 
 		for _, p := range Customer_struct_slice {
-			customer_map_s[p.id] = p
+			customer_map_s[p.sku_id] = p
 		}
 
 		return customer_map_s, nil
@@ -1553,7 +1553,7 @@ func (Connector *Connector) GetAllCustomer(DataBaseType string) (map[string]root
 		}
 
 		// for _, p := range customer_map_json {
-		// 	customer_map_s[p.id] = p
+		// 	customer_map_s[p.sku_id] = p
 		// }
 
 		return customer_map_json, nil
@@ -1574,7 +1574,7 @@ func (Connector *Connector) AddChangeOneRow(DataBaseType string, Customer_struct
 
 	case "MongoDB":
 
-		SingleResult := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.M{"id": Customer_struct.id})
+		SingleResult := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.M{"sku_id": Customer_struct.sku_id})
 		if SingleResult.Err() != nil {
 			insertResult, err := Connector.CollectionMongoDB.InsertOne(context.TODO(), Customer_struct)
 			if err != nil {
@@ -1584,9 +1584,9 @@ func (Connector *Connector) AddChangeOneRow(DataBaseType string, Customer_struct
 
 		} else {
 
-			UpdateResult, err := Connector.CollectionMongoDB.UpdateOne(context.TODO(), bson.M{"id": Customer_struct.id},
+			UpdateResult, err := Connector.CollectionMongoDB.UpdateOne(context.TODO(), bson.M{"sku_id": Customer_struct.sku_id},
 				bson.M{"$set": bson.M{
-					"id":    Customer_struct.id,
+					"sku_id":    Customer_struct.sku_id,
 					"customer_name":  Customer_struct.Customer_name,
 					"customer_type":  Customer_struct.Customer_type,
 					"customer_email": Customer_struct.Customer_email,
@@ -1606,7 +1606,7 @@ func (Connector *Connector) AddChangeOneRow(DataBaseType string, Customer_struct
 			return err
 		}
 
-		err = Connector.RedisClient.Set(Customer_struct.id, string(JsonStr), 0).Err()
+		err = Connector.RedisClient.Set(Customer_struct.sku_id, string(JsonStr), 0).Err()
 		if err != nil {
 			return err
 		}
@@ -1632,7 +1632,7 @@ func (Connector *Connector) AddChangeOneRow(DataBaseType string, Customer_struct
 
 	default:
 		Connector.Mutex.Lock()
-		Connector.DemoDBmap[Customer_struct.id] = Customer_struct
+		Connector.DemoDBmap[Customer_struct.sku_id] = Customer_struct
 		Connector.Mutex.Unlock()
 	}
 
@@ -1679,7 +1679,7 @@ func (Connector *Connector) FindOneRow(DataBaseType string, id string, Global_se
 	switch DataBaseType {
 	case "MongoDB":
 
-		err := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.D{{"id", id}}).Decode(&Customer_struct_out)
+		err := Connector.CollectionMongoDB.FindOne(context.TODO(), bson.D{{"sku_id", id}}).Decode(&Customer_struct_out)
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
@@ -1765,8 +1765,8 @@ func (Connector *Connector) DeleteOneRow(DataBaseType string, id string, Global_
 	switch DataBaseType {
 	case "MongoDB":
 
-		//res, err := Connector.CollectionMongoDB.DeleteOne(context.TODO(), bson.D{{"id", id}})
-		res, err := Connector.CollectionMongoDB.DeleteMany(context.TODO(), bson.M{"id": id})
+		//res, err := Connector.CollectionMongoDB.DeleteOne(context.TODO(), bson.D{{"sku_id", id}})
+		res, err := Connector.CollectionMongoDB.DeleteMany(context.TODO(), bson.M{"sku_id": id})
 		if err != nil {
 			return err
 		}

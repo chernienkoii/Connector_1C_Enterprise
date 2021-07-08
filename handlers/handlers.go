@@ -163,10 +163,10 @@ func log1C_xml(w http.ResponseWriter, r *http.Request) {
 
 		// for _, p := range customer_map_s {
 		// 	Custromer := Custromers.CreateElement("Custromer")
-		// 	Custromer.CreateAttr("value", p.id)
+		// 	Custromer.CreateAttr("value", p.sku_id)
 
-		// 	id := Custromer.CreateElement("id")
-		// 	id.CreateAttr("value", p.id)
+		// 	id := Custromer.CreateElement("sku_id")
+		// 	id.CreateAttr("value", p.sku_id)
 		// 	name := Custromer.CreateElement("Customer_name")
 		// 	name.CreateAttr("value", p.Customer_name)
 		// 	type1 := Custromer.CreateElement("Customer_type")
@@ -325,7 +325,7 @@ func Api_json(w http.ResponseWriter, r *http.Request) {
 		}
 
 		for _, p := range customer_map_json {
-			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.id, rootsctuct.Global_settingsV)
+			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.sku_id, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				fmt.Println(err.Error())
@@ -424,7 +424,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Customer_struct_out := rootsctuct.Customer_struct{
-		id:    r.FormValue("id"),
+		sku_id:    r.FormValue("sku_id"),
 		Customer_name:  r.FormValue("customer_name"),
 		Customer_type:  r.FormValue("customer_type"),
 		Customer_email: r.FormValue("customer_email"),
@@ -456,7 +456,7 @@ func Postform_add_change_customer(w http.ResponseWriter, r *http.Request) {
 
 	customer_data := rootsctuct.Customer_struct{
 		Customer_name:  r.FormValue("customer_name"),
-		id:    r.FormValue("id"),
+		sku_id:    r.FormValue("sku_id"),
 		Customer_type:  r.FormValue("customer_type"),
 		Customer_email: r.FormValue("customer_email"),
 	}
@@ -492,10 +492,10 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 		for _, p := range customer_map_s {
 			Custromer := Custromers.CreateElement("Custromer")
-			Custromer.CreateAttr("value", p.id)
+			Custromer.CreateAttr("value", p.sku_id)
 
-			id := Custromer.CreateElement("id")
-			id.CreateAttr("value", p.id)
+			id := Custromer.CreateElement("sku_id")
+			id.CreateAttr("value", p.sku_id)
 			name := Custromer.CreateElement("Customer_name")
 			name.CreateAttr("value", p.Customer_name)
 			type1 := Custromer.CreateElement("Customer_type")
@@ -528,13 +528,13 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 		// body = []byte(`<Custromers>
 		//  <Custromer value="777">
-		//    <id value="777"/>
+		//    <sku_id value="777"/>
 		//    <Customer_name value="Dmitry"/>
 		//    <Customer_type value="Cust"/>
 		//    <Customer_email value="fff@mail.ru"/>
 		//  </Custromer>
 		//  <Custromer value="666">
-		//    <id value="666"/>
+		//    <sku_id value="666"/>
 		//    <Customer_name value="Alex"/>
 		//    <Customer_type value="Cust_Fiz"/>
 		//    <Customer_email value="44fish@mail.ru"/>
@@ -554,9 +554,9 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 			Customer_struct := rootsctuct.Customer_struct{}
 			//fmt.Println("CHILD element:", Custromer.Tag)
-			if id := Custromer.SelectElement("id"); id != nil {
-				value := id.SelectAttrValue("value", "unknown")
-				Customer_struct.id = value
+			if sku_id := Custromer.SelectElement("sku_id"); sku_id != nil {
+				value := sku_id.SelectAttrValue("value", "unknown")
+				Customer_struct.sku_id = value
 			}
 			if Customer_name := Custromer.SelectElement("Customer_name"); Customer_name != nil {
 				value := Customer_name.SelectAttrValue("value", "unknown")
@@ -572,7 +572,7 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 				Customer_struct.Customer_email = value
 			}
 
-			customer_map_xml[Customer_struct.id] = Customer_struct
+			customer_map_xml[Customer_struct.sku_id] = Customer_struct
 			// for _, attr := range Custromer.Attr {
 			// 	fmt.Printf("  ATTR: %s=%s\n", attr.Key, attr.Value)
 			// }
@@ -609,9 +609,9 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 
 			Customer_struct := rootsctuct.Customer_struct{}
 			//fmt.Println("CHILD element:", Custromer.Tag)
-			if id := Custromer.SelectElement("id"); id != nil {
-				value := id.SelectAttrValue("value", "unknown")
-				Customer_struct.id = value
+			if sku_id := Custromer.SelectElement("sku_id"); sku_id != nil {
+				value := sku_id.SelectAttrValue("value", "unknown")
+				Customer_struct.sku_id = value
 			}
 			if Customer_name := Custromer.SelectElement("Customer_name"); Customer_name != nil {
 				value := Customer_name.SelectAttrValue("value", "unknown")
@@ -627,14 +627,14 @@ func Api_xml(w http.ResponseWriter, r *http.Request) {
 				Customer_struct.Customer_email = value
 			}
 
-			customer_map_xml[Customer_struct.id] = Customer_struct
+			customer_map_xml[Customer_struct.sku_id] = Customer_struct
 			// for _, attr := range Custromer.Attr {
 			// 	fmt.Printf("  ATTR: %s=%s\n", attr.Key, attr.Value)
 			// }
 		}
 
 		for _, p := range customer_map_xml {
-			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.id, rootsctuct.Global_settingsV)
+			err := connector.ConnectorV.DeleteOneRow(connector.ConnectorV.DataBaseType, p.sku_id, rootsctuct.Global_settingsV)
 			if err != nil {
 				connector.ConnectorV.LoggerConn.ErrorLogger.Println(err.Error())
 				fmt.Println(err.Error())
