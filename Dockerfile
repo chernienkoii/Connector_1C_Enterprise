@@ -6,7 +6,7 @@ WORKDIR /go/src/github.com/chernienkoii/Connector_1C_Enterprise
 RUN go get "github.com/streadway/amqp"
 RUN go get "github.com/gorilla/mux"
 
-RUN CGO_ENABLED=0 go install github.com/dchernienkoii/Connector_1C_Enterprise
+RUN CGO_ENABLED=0 go install github.com/chernienkoii/Connector_1C_Enterprise
 
 ENTRYPOINT /go/bin/Connector_1C_Enterprise
 
